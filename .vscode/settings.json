@@ -43,6 +43,14 @@
         "ostream": "cpp",
         "stdexcept": "cpp",
         "streambuf": "cpp",
-        "typeinfo": "cpp"
-    }
+        "typeinfo": "cpp",
+        "fstream": "cpp",
+        "sstream": "cpp",
+        "iomanip": "cpp",
+        "ctime": "cpp"
+    },
+
+    "cmake.debugConfig": {
+        "args": ["/mnt/c/Users/k24116752/Code/simpletron/input.txt"]
+    }    
 }
