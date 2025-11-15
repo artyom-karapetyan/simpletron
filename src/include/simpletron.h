@@ -7,7 +7,7 @@ using Memory = std::vector<short>;
 
 struct Machine {
     Memory mem{};
-    short* instruction_ptr{&mem[0]};
+    short* instruction_ptr{nullptr};
     int accumulator{};
 };
 

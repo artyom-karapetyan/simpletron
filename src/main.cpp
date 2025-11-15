@@ -1,10 +1,11 @@
 #include <simpletron.h>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 int main(int argc, char* argv[]) {
     try {
-        std::string file_name = "input.txt";
+        std::string file_name = "input.sml";
         if (argc > 1) {
             file_name = argv[1];
         }
@@ -16,8 +17,8 @@ int main(int argc, char* argv[]) {
         }
 
         Machine machine;
-        load_program(program, machine.mem);
-        dump_program(std::cout, machine.mem);
+        //load_program(program, machine.mem);
+        //dump_program(std::cout, machine.mem);
 
         // std::string prog = R"(
         //     +1007
@@ -31,13 +32,14 @@ int main(int argc, char* argv[]) {
         //     +0000
         //     +0000
         // )";
+        std::istringstream iss("1 2 3 4 5 6 7");
 
-        // if (run_simpletron(program, std::cin, std::cout)) {
-        //     std::cout << "Program executed succesfully.\n";
-        // }
-        // else {
-        //     std::cout << "Failed to execute program.\n";
-        // }
+        if (run_simpletron(program, iss, std::cout)) {
+           std::cout << "Program executed succesfully.\n";
+        }
+        else {
+           std::cout << "Failed to execute program.\n";
+        }
     }
     catch (const std::exception& e) {
         std::cout << "exception: " << e.what() << std::endl;
