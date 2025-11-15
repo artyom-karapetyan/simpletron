@@ -55,6 +55,6 @@
     },
 
     "cmake.debugConfig": {
-        "args": ["/mnt/c/Users/k24116752/Code/simpletron/sml/average_of_7.sml"]
+        "args": ["/mnt/c/Users/k24116752/Code/simpletron/sml/largest_num.sml"]
     }    
 }

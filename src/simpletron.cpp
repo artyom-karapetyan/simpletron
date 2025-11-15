@@ -151,10 +151,6 @@ bool execute(Machine& machine,
     auto& ptr = machine.instruction_ptr;
     bool branched = false;
 
-#ifdef DEBUG_MODE
-    debug(opcode, address, machine);
-#endif
-
     short num{};
     short val{};
     switch(opcode){
@@ -203,6 +199,13 @@ bool execute(Machine& machine,
         case HALT:
             break;
     }
+
+#ifdef DEBUG_MODE
+    debug(opcode, address, machine);
+    if (branched) {
+        std::cout << '\n';
+    }
+#endif
 
     if (!branched) {
         ++ptr;
