@@ -118,35 +118,27 @@ short& get_value(Memory& mem, short address) {
 
 void debug(const short opcode, const short address, const Machine& machine) {
 
-    static int print_caption = []() {
-        std::cout << "  PTR | INST | ADDR | VAL | ACCUM " << std::endl;
-        std::cout << "----------------------------------" << std::endl;
-        return 0;
-    }();
+    constexpr std::string_view fmt = "{:>5} | {:5}| {:>4} | {:>4} | {:5}\n";
+    static bool printed_caption = false;
+    if (!printed_caption) {
+        std::cout << std::format(fmt, "PTR", "INST", "ADDR", "VAL", "ACCUM");
+        std::cout << "-----------------------------------" << '\n';
+        printed_caption = true;
+    }
 
-    // std::string val = std::to_string(get_value(machine.mem, address));
     bool print_value = true;
     bool print_accum = true;
 
     if (opcode == BRANCH || opcode == BRANCHNEG || opcode == BRANCHZERO || opcode == HALT) { print_value = false; }
     if (opcode == HALT) { print_accum = false; }
     
-    std::cout << "-> " << std::setw(2) << std::setfill('0') << machine.instruction_ptr - &machine.mem[0]
-              << "   " << std::setw(4) << opcode_to_str(opcode)
-              << "     " << std::setw(2) << address
-              << "  " << std::setw(4) << std::setfill(' ');
-    
-    if (print_value)  {
-        std::cout << get_value(machine.mem, address);
-    }
-    else {
-        std::cout << " ";
-    }
-
-    if (print_accum) {
-        std::cout << "   [" << std::setw(4) << machine.accumulator << "]";
-    }
-    std::cout << '\n';
+    std::cout << std::format(fmt, 
+        std::format("-> {:02d}", machine.instruction_ptr - &machine.mem[0]), 
+        std::format("{}", opcode_to_str(opcode)),
+        std::format("{:02d}", address),
+        std::format("{}", print_value ? std::to_string(get_value(machine.mem, address)) : " "),
+        std::format("[{:>4}]", (print_accum ? std::to_string(machine.accumulator) : ""))
+    );
 }
 
 bool execute(Machine& machine, 
