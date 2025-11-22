@@ -7,7 +7,7 @@
 #include <format>
 
 // Uncomment to enable debug mode with advanced diagnostics
-#define DEBUG_MODE
+// #define DEBUG_MODE
 
 // Input/output operations
 const short READ       = 10;
@@ -61,8 +61,20 @@ std::string_view opcode_to_str(int opcode) {
     }
 }
 
-void trim_whitespaces(std::string& line) {
+/*
+1. Validate input between -9999 to 9999
+2. Check for overflow errors
+3. Check for invalid address
+4. Improve dump_program
+5. *** Attempt to divide by zero ***
+6. *** Simpletron execution abnormally terminated ***
+7. Trim whitespaces
+8. Tests
 
+*/
+
+std::string& trim_whitespaces(std::string& line) {
+    return line;
 }
 
 bool is_valid(const std::string& line) {
@@ -116,6 +128,26 @@ short& get_value(Memory& mem, short address) {
     return mem[address];
 }
 
+void read_number(std::istream& input, short& num) {
+    input >> num;
+/*    std::string str;
+    std::getline(input, str);
+
+    auto [ptr, ec] = std::from_chars(str.data(), str.data() + str.size(), num);
+
+    if (ec == std::errc::invalid_argument) {
+        throw std::runtime_error(std::format("Invalid argument {}", std::quoted(ptr)));
+    } else if (ec == std::errc::result_out_of_range) {
+        throw std::runtime_error(std::format("Value doesn't fit inside the type {}", typeid(num).name()));
+    }*/
+}
+
+void check_overflows(const auto num) {
+    if (num < -9999 || num > 9999) {
+        throw std::out_of_range(std::format("Number {} is outside of range [-9999, 9999]", num));
+    }
+}
+
 void debug(const short opcode, const short address, const Machine& machine) {
 
     constexpr std::string_view fmt = "{:>5} | {:5}| {:>4} | {:>4} | {:5}\n";
@@ -152,10 +184,11 @@ bool execute(Machine& machine,
     bool branched = false;
 
     short num{};
-    short val{};
+    int val{};
     switch(opcode){
         case READ:
-            input >> num;
+            read_number(input, num);
+            check_overflows(num);
             get_value(mem, address) = num;
             break;
         case WRITE:
@@ -169,16 +202,22 @@ bool execute(Machine& machine,
             break;
         case ADD:
             acm += get_value(mem, address);
+            check_overflows(acm);
             break;
         case SUBTRACT:
             acm -= get_value(mem, address);
+            check_overflows(acm);
             break;
         case DIVIDE:
-            if (get_value(mem, address) == 0) {return false;}
+            if (get_value(mem, address) == 0) {
+                throw std::runtime_error("Attempt to divide by zero.");
+            }
             acm /= get_value(mem, address);
             break;
         case MULTIPLY:
-            acm *= get_value(mem, address);
+            val = static_cast<int>(acm) * static_cast<int>(get_value(mem, address));
+            check_overflows(val);
+            acm = static_cast<short>(val);
             break;
         case BRANCH:
             ptr = &get_value(mem, address);
@@ -235,7 +274,7 @@ bool run_program(Machine& machine, std::istream& input, std::ostream& output) {
     return true;
 }
 
-bool run_simpletron(std::istream& prog, std::istream& input, std::ostream& output) {
+void run_simpletron(std::istream& prog, std::istream& input, std::ostream& output) {
     /*
     1. Initialize machine - DONE
     2. Load program into memory - DONE
@@ -244,5 +283,17 @@ bool run_simpletron(std::istream& prog, std::istream& input, std::ostream& outpu
     Machine machine;
     load_program(prog, machine.mem);
 
-    return run_program(machine, input, output);
+    run_program(machine, input, output);
+}
+
+std::string run_simpletron(std::string_view progsv, std::string_view inputsv)
+{
+    std::istringstream prog(std::string{progsv});
+    std::istringstream input(std::string{inputsv});
+    std::ostringstream output;
+    
+    run_simpletron(std::cin, input, output);
+    std::string out = output.str();
+    trim_whitespaces(out);
+    return out;
 }

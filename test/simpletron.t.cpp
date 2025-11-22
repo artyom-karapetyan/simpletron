@@ -1,27 +1,52 @@
 #include <simpletron.h>
 #include <gtest/gtest.h>
+#include <string>
 
-void test_helper(const std::string& prog, const std::string& in, const std::string& out, bool result) {
-    std::istringstream program(prog);
-    std::istringstream input(in);
-    std::ostringstream output;
+namespace {
 
-    bool res = run_simpletron(program, input, output);
+const std::string_view add_two_ints = R"(
+    +1007
+    +1008
+    +2007
+    +3008
+    +2109   
+    +1109 
+    +4300  
+    +0000
+    +0000
+    +0000
+)";
 
-    ASSERT_EQ(result, res);
-    EXEPCT_EQ(out, output.str());
+
 }
 
-void test_ok(const std::string& prog, const std::string& in, const std::string& out, bool result) {
-    test_helper(prog, in, out, true)
-}
+// void test_helper(std::string_view prog, std::string_view in, std::string_view out, Result res) {
+//     std::istringstream program(std::string{prog});
+//     std::istringstream input(std::string{in});
+//     std::ostringstream output;
 
-void test_fail(const std::string& prog, const std::string& in, const std::string& out, bool result) {
-    test_helper(prog, in, out, false)
-}
+//     if (res == Result::Success)
+//     {
+//         EXPECT_NO_THROW(run_simpletron(program, input, output));
+//         EXPECT_EQ(out, output.str());
+//     }
+//     else
+//     {
+//         EXPECT_THROW(run_simpletron(program, input, output));
+//     }
+// }
+
+// void test_ok(std::string_view prog, std::string_view in, std::string_view out) {
+//     test_helper(prog, in, out, Result::Success);
+// }
+
+// void test_fail(std::string_view prog, std::string_view in, std::string_view out) {
+//     test_helper(prog, in, out, Result::Fail);
+// }
 
 TEST(SimpletronTest, AddTwoIntegers)
 {
-    test_ok("code", "1 2", "3");
-    test_fail("code", "2", "");
+    EXPECT_EQ(run_simpletron(add_two_ints, "1 2"), "3");
+
+    // EXPECT_THROW(run_simpletron(add_two_ints, "1 2"), std::runtime_error);
 }

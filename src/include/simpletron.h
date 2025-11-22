@@ -2,6 +2,8 @@
 
 #include <iosfwd>
 #include <vector>
+#include <string_view>
+#include <string>
 
 using Memory = std::vector<short>;
 
@@ -15,4 +17,6 @@ void load_program(std::istream& prog, Memory& mem);
 
 void dump_program(std::ostream& os, const Memory& mem);
 
-bool run_simpletron(std::istream& prog, std::istream& input, std::ostream& output);
+void run_simpletron(std::istream& prog, std::istream& input, std::ostream& output);
+
+std::string run_simpletron(std::string_view prog, std::string_view input);

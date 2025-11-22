@@ -51,10 +51,26 @@
         "charconv": "cpp",
         "span": "cpp",
         "variant": "cpp",
-        "format": "cpp"
+        "format": "cpp",
+        "chrono": "cpp",
+        "csignal": "cpp",
+        "cstring": "cpp",
+        "list": "cpp",
+        "map": "cpp",
+        "set": "cpp",
+        "unordered_set": "cpp",
+        "ratio": "cpp",
+        "any": "cpp",
+        "condition_variable": "cpp",
+        "forward_list": "cpp",
+        "mutex": "cpp",
+        "semaphore": "cpp",
+        "stop_token": "cpp",
+        "thread": "cpp"
     },
 
     "cmake.debugConfig": {
         "args": ["/mnt/c/Users/k24116752/Code/simpletron/sml/largest_num.sml"]
-    }    
+    },
+    "C_Cpp.default.cppStandard": "c++20"
 }

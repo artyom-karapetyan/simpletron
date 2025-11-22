@@ -34,12 +34,7 @@ int main(int argc, char* argv[]) {
         // )";
         std::istringstream iss("5 11 42 67 9 335");
 
-        if (run_simpletron(program, iss, std::cout)) {
-           std::cout << "Program executed succesfully.\n";
-        }
-        else {
-           std::cout << "Failed to execute program.\n";
-        }
+        run_simpletron(program, iss, std::cout);
     }
     catch (const std::exception& e) {
         std::cout << "exception: " << e.what() << std::endl;
@@ -47,3 +42,4 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
+
