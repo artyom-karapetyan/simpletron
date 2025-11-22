@@ -1,5 +1,5 @@
 #include <simpletron.h>
-
+#include <operations.h>
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -10,58 +10,6 @@
 // Uncomment to enable debug mode with advanced diagnostics
 // #define DEBUG_MODE
 
-// Input/output operations
-const short READ       = 10;
-const short WRITE      = 11;
-
-// Load and store operations
-const short LOAD       = 20;
-const short STORE      = 21;
-
-// Arithmetic operations
-const short ADD        = 30;
-const short SUBTRACT   = 31;
-const short DIVIDE     = 32;
-const short MULTIPLY   = 33;
-
-// Transfer-of-control operations
-const short BRANCH     = 40;
-const short BRANCHNEG  = 41;
-const short BRANCHZERO = 42;
-
-const short HALT       = 43;
-
-std::string_view opcode_to_str(int opcode) {
-    switch (opcode) {
-        case READ:
-            return "READ";
-        case WRITE:
-            return "WRTE";
-        case LOAD:
-            return "LOAD";
-        case STORE:
-            return "STRE";
-        case ADD:
-            return "ADD ";
-        case SUBTRACT:
-            return "SUBT";
-        case DIVIDE:
-            return "DIVI";
-        case MULTIPLY:
-            return "MULT";
-        case BRANCH:
-            return "BRAN";
-        case BRANCHNEG:
-            return "BRNG";
-        case BRANCHZERO:
-            return "BRZE";
-        case HALT:
-            return "HALT";
-        default:
-            return "????";
-    }
-}
-
 /*
 1. [x] Validate input between -9999 to 9999
 2. [x] Check for overflow errors
@@ -69,7 +17,7 @@ std::string_view opcode_to_str(int opcode) {
 4. [ ] Improve dump_program
 5. [ ] *** Attempt to divide by zero ***
 6. [ ] *** Simpletron execution abnormally terminated ***
-7. [ ] Trim whitespaces
+7. [ ] Trim whitespaces !!!!!!! JUST DO IT !!!!!
 8. [x] Tests
 9. [ ] Fix crash when invalid path is specified
 
@@ -92,6 +40,7 @@ void load_program(std::istream& prog, Memory& mem) {
             short instruction = std::stoi(line);
             mem.push_back(instruction);    
         }
+        line.clear();
     }
 }
 

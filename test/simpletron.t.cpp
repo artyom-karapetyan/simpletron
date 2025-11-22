@@ -1,22 +1,30 @@
 #include <simpletron.h>
+#include <operations.h>
 #include <gtest/gtest.h>
 #include <string>
 
 
 namespace {
 
-const std::string_view add_two_ints = R"(
-    +1007
-    +1008
-    +2007
-    +3008
-    +2109   
-    +1109 
-    +4300  
-    +0000
-    +0000
-    +0000
-)";
+std::string two_numbers_op(int op) {
+    return std::format(R"(
+        +1007
+        +1008
+        +2007
+        +{}08
+        +2109   
+        +1109 
+        +4300  
+        +0000
+        +0000
+        +0000
+    )", op);
+}
+
+const std::string add_two_ints = two_numbers_op(ADD);
+const std::string sub_two_ints = two_numbers_op(SUBTRACT);
+const std::string mul_two_ints = two_numbers_op(MULTIPLY);
+const std::string div_two_ints = two_numbers_op(DIVIDE);
 
 }
 
