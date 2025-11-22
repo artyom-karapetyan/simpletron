@@ -63,15 +63,15 @@ std::string_view opcode_to_str(int opcode) {
 }
 
 /*
-1. Validate input between -9999 to 9999
-2. Check for overflow errors
-3. Check for invalid address
-4. Improve dump_program
-5. *** Attempt to divide by zero ***
-6. *** Simpletron execution abnormally terminated ***
-7. Trim whitespaces
-8. Tests
-9. Fix crash when invalid path is specified
+1. [x] Validate input between -9999 to 9999
+2. [x] Check for overflow errors
+3. [x] Check for invalid address
+4. [ ] Improve dump_program
+5. [ ] *** Attempt to divide by zero ***
+6. [ ] *** Simpletron execution abnormally terminated ***
+7. [ ] Trim whitespaces
+8. [x] Tests
+9. [ ] Fix crash when invalid path is specified
 
 */
 

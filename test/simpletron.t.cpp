@@ -18,7 +18,6 @@ const std::string_view add_two_ints = R"(
     +0000
 )";
 
-
 }
 
 TEST(SimpletronTest, AddTwoIntegers)
@@ -43,4 +42,10 @@ TEST(SimpletronTest, AddTwoIntegers_InvalidInput)
 {
     EXPECT_THROW(run_simpletron(add_two_ints, "1 123456"), std::out_of_range);
         // @todo:artyom - improve later to verify text - "Value doesn't fit inside the type s"
+}
+
+TEST(SimpletronTest, InvalidAddress)
+{
+    EXPECT_THROW(run_simpletron("+1015", "1"), std::runtime_error);
+        // @todo:artyom - improve later to verify text - "Attempt to access memory at invalid address: 15"
 }
