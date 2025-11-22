@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
         //     +0000
         //     +0000
         // )";
-        std::istringstream iss("5 11 42 67 9 335");
+        std::istringstream iss("5 11");
 
         run_simpletron(program, iss, std::cout);
     }

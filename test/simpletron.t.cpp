@@ -2,6 +2,7 @@
 #include <gtest/gtest.h>
 #include <string>
 
+
 namespace {
 
 const std::string_view add_two_ints = R"(
@@ -20,33 +21,26 @@ const std::string_view add_two_ints = R"(
 
 }
 
-// void test_helper(std::string_view prog, std::string_view in, std::string_view out, Result res) {
-//     std::istringstream program(std::string{prog});
-//     std::istringstream input(std::string{in});
-//     std::ostringstream output;
-
-//     if (res == Result::Success)
-//     {
-//         EXPECT_NO_THROW(run_simpletron(program, input, output));
-//         EXPECT_EQ(out, output.str());
-//     }
-//     else
-//     {
-//         EXPECT_THROW(run_simpletron(program, input, output));
-//     }
-// }
-
-// void test_ok(std::string_view prog, std::string_view in, std::string_view out) {
-//     test_helper(prog, in, out, Result::Success);
-// }
-
-// void test_fail(std::string_view prog, std::string_view in, std::string_view out) {
-//     test_helper(prog, in, out, Result::Fail);
-// }
-
 TEST(SimpletronTest, AddTwoIntegers)
 {
     EXPECT_EQ(run_simpletron(add_two_ints, "1 2"), "3");
+    EXPECT_EQ(run_simpletron(add_two_ints, "-1 -2"), "-3");
+    EXPECT_EQ(run_simpletron(add_two_ints, "1234 5678"), "6912");
+}
 
-    // EXPECT_THROW(run_simpletron(add_two_ints, "1 2"), std::runtime_error);
+TEST(SimpletronTest, AddTwoIntegers_PartialInput)
+{
+    EXPECT_THROW(run_simpletron(add_two_ints, "1 "), std::runtime_error);
+}
+
+TEST(SimpletronTest, AddTwoIntegers_Overflow)
+{
+    EXPECT_THROW(run_simpletron(add_two_ints, "9999 1"), std::out_of_range);
+        // @todo:artyom - "Number 10000 is outside of range [-9999, 9999]".
+}
+
+TEST(SimpletronTest, AddTwoIntegers_InvalidInput)
+{
+    EXPECT_THROW(run_simpletron(add_two_ints, "1 123456"), std::out_of_range);
+        // @todo:artyom - improve later to verify text - "Value doesn't fit inside the type s"
 }

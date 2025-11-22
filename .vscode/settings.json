@@ -70,7 +70,7 @@
     },
 
     "cmake.debugConfig": {
-        "args": ["/mnt/c/Users/k24116752/Code/simpletron/sml/largest_num.sml"]
+        "args": ["/Users/artyomk/dev/projects/simpletron/sml/two_num_sum.sml"]
     },
     "C_Cpp.default.cppStandard": "c++20"
 }

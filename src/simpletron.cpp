@@ -5,6 +5,7 @@
 #include <sstream>
 #include <iomanip>
 #include <format>
+#include <charconv>
 
 // Uncomment to enable debug mode with advanced diagnostics
 // #define DEBUG_MODE
@@ -70,6 +71,7 @@ std::string_view opcode_to_str(int opcode) {
 6. *** Simpletron execution abnormally terminated ***
 7. Trim whitespaces
 8. Tests
+9. Fix crash when invalid path is specified
 
 */
 
@@ -129,17 +131,20 @@ short& get_value(Memory& mem, short address) {
 }
 
 void read_number(std::istream& input, short& num) {
-    input >> num;
-/*    std::string str;
-    std::getline(input, str);
+    std::string str;
+    input >> str;
+
+    if (!input) {
+        throw std::runtime_error("Stream error");
+    }
 
     auto [ptr, ec] = std::from_chars(str.data(), str.data() + str.size(), num);
 
     if (ec == std::errc::invalid_argument) {
-        throw std::runtime_error(std::format("Invalid argument {}", std::quoted(ptr)));
+        throw std::invalid_argument(std::format("Invalid argument '{}'", ptr));
     } else if (ec == std::errc::result_out_of_range) {
-        throw std::runtime_error(std::format("Value doesn't fit inside the type {}", typeid(num).name()));
-    }*/
+        throw std::out_of_range(std::format("Value doesn't fit inside the type '{}'", typeid(num).name()));
+    }
 }
 
 void check_overflows(const auto num) {
@@ -192,7 +197,7 @@ bool execute(Machine& machine,
             get_value(mem, address) = num;
             break;
         case WRITE:
-            output << get_value(mem, address) << '\n';
+            output << get_value(mem, address);
             break;
         case LOAD:
             acm = get_value(mem, address);
@@ -292,7 +297,7 @@ std::string run_simpletron(std::string_view progsv, std::string_view inputsv)
     std::istringstream input(std::string{inputsv});
     std::ostringstream output;
     
-    run_simpletron(std::cin, input, output);
+    run_simpletron(prog, input, output);
     std::string out = output.str();
     trim_whitespaces(out);
     return out;

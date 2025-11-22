@@ -13,4 +13,4 @@ set(THE_APP ${THE_LIB}-app)
 set(THE_TST ${THE_LIB}-tst)
 
 add_subdirectory(src)
-#add_subdirectory(test)
+add_subdirectory(test)
