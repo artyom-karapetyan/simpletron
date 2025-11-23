@@ -70,7 +70,7 @@
     },
 
     "cmake.debugConfig": {
-        "args": ["/Users/artyomk/dev/projects/simpletron/sml/two_num_sum.sml"]
+        "args": ["/Users/artyomk/dev/projects/simpletron/sml/two_num_div.sml"]
     },
     "C_Cpp.default.cppStandard": "c++20"
 }

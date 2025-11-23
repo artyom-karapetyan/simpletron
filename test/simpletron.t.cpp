@@ -18,7 +18,7 @@ std::string two_numbers_op(int op) {
         +0000
         +0000
         +0000
-    )", op);
+)", op);
 }
 
 const std::string add_two_ints = two_numbers_op(ADD);
@@ -56,4 +56,18 @@ TEST(SimpletronTest, InvalidAddress)
 {
     EXPECT_THROW(run_simpletron("+1015", "1"), std::runtime_error);
         // @todo:artyom - improve later to verify text - "Attempt to access memory at invalid address: 15"
+}
+
+TEST(SimpletronTest, DivisionTwoInts)
+{
+    EXPECT_EQ(run_simpletron(div_two_ints, "8 2"), "4");
+    EXPECT_EQ(run_simpletron(div_two_ints, "-8 2"), "-4");
+    EXPECT_EQ(run_simpletron(div_two_ints, "-8 -2"), "4");
+    EXPECT_EQ(run_simpletron(div_two_ints, "2 8"), "0");
+}
+
+TEST(SimpletronTest, DivisionByZero)
+{
+    EXPECT_THROW(run_simpletron(div_two_ints, "1 0"), std::runtime_error);
+        // @todo:artyom - improve later to verify text - "Attempt to divide by zero."
 }

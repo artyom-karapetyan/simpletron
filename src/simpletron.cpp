@@ -15,8 +15,8 @@
 2. [x] Check for overflow errors
 3. [x] Check for invalid address
 4. [ ] Improve dump_program
-5. [ ] *** Attempt to divide by zero ***
-6. [ ] *** Simpletron execution abnormally terminated ***
+5. [x] *** Attempt to divide by zero ***
+6. [x] *** Simpletron execution abnormally terminated ***
 7. [ ] Trim whitespaces !!!!!!! JUST DO IT !!!!!
 8. [x] Tests
 9. [ ] Fix crash when invalid path is specified
@@ -164,7 +164,7 @@ bool execute(Machine& machine,
             break;
         case DIVIDE:
             if (get_value(mem, address) == 0) {
-                throw std::runtime_error("Attempt to divide by zero.");
+                throw std::runtime_error("Attempt to divide by zero");
             }
             acm /= get_value(mem, address);
             break;

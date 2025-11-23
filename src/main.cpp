@@ -32,12 +32,13 @@ int main(int argc, char* argv[]) {
         //     +0000
         //     +0000
         // )";
-        std::istringstream iss("5 11");
+        std::istringstream iss("5 0");
 
         run_simpletron(program, iss, std::cout);
     }
     catch (const std::exception& e) {
-        std::cout << "exception: " << e.what() << std::endl;
+        std::cout << "*** " << e.what() << " ***\n";
+        std::cout << "*** Simpletron execution abnormally terminated ***" << std::endl;
     }
 
     return 0;
