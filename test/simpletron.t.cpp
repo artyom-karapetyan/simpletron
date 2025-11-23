@@ -18,7 +18,7 @@ std::string two_numbers_op(int op) {
         +0000
         +0000
         +0000
-)", op);
+    )", op);
 }
 
 const std::string add_two_ints = two_numbers_op(ADD);
@@ -27,6 +27,22 @@ const std::string mul_two_ints = two_numbers_op(MULTIPLY);
 const std::string div_two_ints = two_numbers_op(DIVIDE);
 
 }
+
+TEST(SimpletronTest, TrimWhitespaces)
+{
+    std::string str("  +4564  ");
+    EXPECT_EQ(trim(str), "+4564");
+
+    str = "+4564";
+    EXPECT_EQ(trim(str), "+4564");
+
+    str = "+4564\t\n";
+    EXPECT_EQ(trim(str), "+4564");
+
+    str = "  \r \t\n \f  \v ";
+    EXPECT_EQ(trim(str), "");
+}
+
 
 TEST(SimpletronTest, AddTwoIntegers)
 {

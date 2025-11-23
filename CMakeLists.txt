@@ -8,6 +8,22 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+if(MSVC)
+    # Visual Studio (Windows)
+    add_compile_options(
+        /W4          # Baseline reasonable warnings
+        /permissive- # Standards conformance
+    )
+else()
+    # GCC and Clang (Linux/macOS)
+    add_compile_options(
+        -Wall      # "All" standard warnings
+        -Wextra    # Extra warnings not covered by -Wall
+        -Wpedantic # Warn if non-standard C++ is used
+        -Werror
+    )
+endif()
+
 set(THE_LIB "simpletron")
 set(THE_APP ${THE_LIB}-app)
 set(THE_TST ${THE_LIB}-tst)

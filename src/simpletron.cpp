@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <format>
 #include <charconv>
+#include <ranges>
 
 // Uncomment to enable debug mode with advanced diagnostics
 // #define DEBUG_MODE
@@ -17,14 +18,36 @@
 4. [ ] Improve dump_program
 5. [x] *** Attempt to divide by zero ***
 6. [x] *** Simpletron execution abnormally terminated ***
-7. [ ] Trim whitespaces !!!!!!! JUST DO IT !!!!!
+7. [x] Trim whitespaces
 8. [x] Tests
 9. [ ] Fix crash when invalid path is specified
 
 */
 
-std::string& trim_whitespaces(std::string& line) {
-    return line;
+std::string& trim_left(std::string& s)
+{
+    s.erase(s.begin(), std::ranges::find_if(s, [](const unsigned char ch) noexcept {
+                return std::isgraph(ch);
+            }));
+
+    return s;
+}
+
+std::string& trim_right(std::string& s)
+{
+    s.erase(std::ranges::find_if(std::ranges::reverse_view(s),
+                                 [](const unsigned char ch) noexcept {
+                                     return std::isgraph(ch);
+                                 })
+                .base(),
+            s.end());
+
+    return s;
+}
+
+std::string& trim(std::string& s)
+{
+    return trim_left(trim_right(s));
 }
 
 bool is_valid(const std::string& line) {
@@ -35,7 +58,7 @@ void load_program(std::istream& prog, Memory& mem) {
     std::string line;
 
     while (std::getline(prog, line)) {
-        trim_whitespaces(line);
+        trim(line);
         if (is_valid(line)) {
             short instruction = std::stoi(line);
             mem.push_back(instruction);    
@@ -46,11 +69,11 @@ void load_program(std::istream& prog, Memory& mem) {
 
 void load_program(std::string& prog, Memory& mem) {
     std::istringstream iss(prog);
-    load_program(prog, mem);
+    load_program(iss, mem);
 }
 
 void dump_program(std::ostream& os, const Memory& mem) {
-    for (int idx = 0; idx < size(mem); ++idx) {
+    for (size_t idx = 0; idx < size(mem); ++idx) {
         os << std::showpos << std::setw(5) << std::setfill('0') << std::internal << mem[idx] << '\n';
     }
 }
@@ -62,7 +85,7 @@ void decode(const short instruction, short& opcode, short& address) {
 
 
 void validate_address(const Memory& mem, short address) {
-    if (address < 0 || address >= mem.size()) {
+    if (address < 0 || address >= static_cast<short>(mem.size())) {
         throw std::runtime_error(
             std::string("Attempt to access memory at invalid address: ") + 
             std::to_string(address));
@@ -248,6 +271,6 @@ std::string run_simpletron(std::string_view progsv, std::string_view inputsv)
     
     run_simpletron(prog, input, output);
     std::string out = output.str();
-    trim_whitespaces(out);
+    trim(out);
     return out;
 }

@@ -13,6 +13,10 @@ struct Machine {
     int accumulator{};
 };
 
+std::string& trim_right(std::string& s);
+std::string& trim_left(std::string& s);
+std::string& trim(std::string& s);
+
 void load_program(std::istream& prog, Memory& mem);
 
 void dump_program(std::ostream& os, const Memory& mem);

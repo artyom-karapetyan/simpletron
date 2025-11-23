@@ -70,7 +70,7 @@
     },
 
     "cmake.debugConfig": {
-        "args": ["/Users/artyomk/dev/projects/simpletron/sml/two_num_div.sml"]
+        "args": ["/Users/artyomk/dev/projects/simpletron/sml/two_num_div.sml", "--gtest_filter=*"]
     },
     "C_Cpp.default.cppStandard": "c++20"
 }
