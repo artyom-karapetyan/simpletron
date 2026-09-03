@@ -22,6 +22,10 @@ else()
         -Wpedantic # Warn if non-standard C++ is used
         -Werror
     )
+
+    if(APPLE)
+        add_compile_options(-Wno-error=character-conversion)
+    endif()
 endif()
 
 set(THE_LIB "simpletron")
